@@ -1,1 +1,62 @@
 <h1>Students</h1>
+{{#if hasPrevPage}}
+  <button onclick='setPrev()'>Anterior</button>
+{{/if}}
+{{#if hasNextPage}}
+  <button onclick='setNext()'>Siguiente</button>
+{{/if}}
+<br />
+<button onclick='setLimit(10)'>10</button>
+<button onclick='setLimit(25)'>25</button>
+<button onclick='setLimit(50)'>50</button>
+<button onclick='setLimit(100)'>100</button>
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each students}}
+      <tr>
+        <td>{{this.first_name}}</td>
+        <td>{{this.last_name}}</td>
+        <td>{{this.email}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan='1'>Total paginas</td>
+      <td colspan='2'>{{pages}}</td>
+    </tr>
+    <tr>
+      <td colspan='1'>Pagina Actual</td>
+      <td colspan='2'>{{page}}</td>
+    </tr>
+  </tfoot>
+</table>
+<script>
+
+  const query = new URLSearchParams(window.location.search);
+
+  function setPrev() {
+    const previusPage = Number(query.get('page')) - 1;
+    query.set('page', previusPage);
+    window.location.search = query.toString();
+  }
+
+  function setNext(){
+    const nextPage = Number(query.get('page'))  + 1;
+    query.set('page', nextPage);
+    window.location.search = query.toString();
+  }
+
+  function setLimit(limit) {
+    query.set('limit', limit);
+    query.set('page', 1);
+    window.location.search = query.toString();
+  }
+</script>
